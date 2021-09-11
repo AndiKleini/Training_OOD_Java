@@ -7,7 +7,7 @@ public class SonsOfUberTaxiRating implements ITaxiRating{
     }
 
     @Override
-    public Double calculatePriceFrom(int distance) {
+    public double calculatePriceFrom(int distance) {
         double price = (double) distance * 2;
         if (distance > 10) {
             price *= 0.9;

@@ -7,7 +7,7 @@ public class StreetBrothersTaxiRating implements ITaxiRating{
     }
 
     @Override
-    public Double calculatePriceFrom(int distance) {
+    public double calculatePriceFrom(int distance) {
         double price = 4.0;
         price += distance * 2;
         return price;

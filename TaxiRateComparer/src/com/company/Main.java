@@ -27,7 +27,7 @@ public class Main {
 						System.out.printf(
 								"%1$s price: %2$s €%n",
 								rating.getName(),
-								rating.calculatePriceFrom(finalDistance).toString()));
+								rating.calculatePriceFrom(finalDistance)));
 
 		System.out.println("Thanks for your request !");
     }
