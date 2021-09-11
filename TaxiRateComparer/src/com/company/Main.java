@@ -1,26 +1,33 @@
 package com.company;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
+
 	    System.out.println("Compare taxi rates of:");
-	    System.out.println("Bob's caps");
-	    System.out.println("Street brothers");
-	    System.out.println("Sons of Uber");
+	    List<ITaxiRating> getTaxRating = GetTaxRatings();
+	    getTaxRating.forEach((rating) -> System.out.println(rating.getName()));
 
 	    System.out.println("Please enter the distance of your tour (miles):");
 	    Scanner input = new Scanner(System.in);
-	    Integer distance = null;
+	    Integer distance;
 	    while ((distance = TryParse(input.next())) == null) {
 	    	System.out.println("Invalid input ... must be a number.");
 		}
 
-	    System.out.println(String.format("View Prices for %s miles.", distance));
-		System.out.println(String.format("Bob's caps %s€", GetPriceForBobCars(distance)));
-		System.out.println(String.format("Street brothers %s€", GetPriceForStreetBrothers(distance)));
-		System.out.println(String.format("Sons of Uber %s€", GetPriceForSonsOfUber(distance)));
+	    System.out.printf("View Prices for %s miles.%n", distance);
+
+		Integer finalDistance = distance;
+		getTaxRating.forEach(
+				(rating) ->
+						System.out.printf(
+								"%1$s price: %2$s €%n",
+								rating.getName(),
+								rating.calculatePriceFrom(finalDistance).toString()));
 
 		System.out.println("Thanks for your request !");
     }
@@ -33,25 +40,15 @@ public class Main {
 		}
 	}
 
-	private static Double GetPriceForBobCars(int distance) {
-    	 if (distance > 2) {
-    	 	return Double.valueOf(3 * distance);
-		 } else {
-    	 	return 9.0;
-		 }
-	}
+	private static List<ITaxiRating> ratings;
 
-	private static Double GetPriceForStreetBrothers(int distance) {
-		Double price = 4.0;
-		price += distance * 2;
-		return price;
-	}
-
-	private static Double GetPriceForSonsOfUber(int distance) {
-		Double price = Double.valueOf(distance * 2);
-		if (distance > 10) {
-			price *= 0.9;
+	private static List<ITaxiRating> GetTaxRatings() {
+    	if (ratings == null) {
+    		ratings = Arrays.asList(
+							new BobsCapsTaxiRating(),
+							new SonsOfUberTaxiRating(),
+							new StreetBrothersTaxiRating()) ;
 		}
-		return price;
+    	return ratings;
 	}
 }
